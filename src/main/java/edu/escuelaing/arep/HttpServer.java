@@ -17,6 +17,9 @@ public class HttpServer {
     private PrintWriter out;
     private BufferedReader in;
 
+    /**
+     * Constructs an HttpServer
+     */
     public HttpServer() {
         int port = getPort();
         serverSocket = null;
@@ -29,6 +32,12 @@ public class HttpServer {
         clientSocket = null;
     }
 
+    /**
+     * This method reads the default port as specified by the PORT variable in
+     * the environment.
+     *
+     * @return The port variable if set, else 4567 as default
+     */
     private static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
@@ -36,6 +45,11 @@ public class HttpServer {
         return 4567; // returns default port if heroku-port isn't set (i.e. on localhost)
     }
 
+     /**
+     * Starts the http server
+     *
+     * @throws IOException
+     */
     public void start() throws IOException {
         while (true) {
             try {
@@ -78,7 +92,12 @@ public class HttpServer {
     }
 
 
-
+    /**
+     * Sends back a image file 
+     * @param header Header of the image file
+     * @param filePath Location path of the image in the server
+     * @throws IOException
+     */
     private void returnImage(String header, String filePath) throws IOException {
         //I have no idea what I am doing.
         //In fact, I don't know why I have to do it this way.
@@ -96,6 +115,12 @@ public class HttpServer {
         os.close();
     }
 
+    /**
+     * Sends back a html file 
+     * @param header Header of the html file
+     * @param file  File to send back
+     * @throws IOException
+     */
     private void returnFile(String header, File file) throws IOException {
         //Maybe I have an idea of what I'm doing
         out.println(header);
@@ -110,6 +135,10 @@ public class HttpServer {
         br.close();
     }
 
+    /**
+     * Send an html with 404 not found
+     * @param fileRequested file not found
+     */
     private void returnFileNotFound(String fileRequested){
         out.println("HTTP/1.1 404\r\nAccess-Control-Allow-Origin: *\r\n\r\n" 
                     + "<html>" 
@@ -117,9 +146,14 @@ public class HttpServer {
                         + "<h1>404 NOT FOUND ( " + fileRequested + " )</h1>" 
                     + "</body>" 
                     + "</html>");
-
     }
 
+    /**
+     * Handles how to send back a requested resource
+     *
+     * @param fileRequested File name of the resource to send back
+     * @throws IOException
+     */
     private void handleRequest(String fileRequested) throws IOException {
         String filePath = "src/main/resources/";
         String ext = FilenameUtils.getExtension(fileRequested);
@@ -145,6 +179,13 @@ public class HttpServer {
         }
     }
 
+    /**
+     * Generate header for the browser
+     * @param isImage true if request resource is a image
+     * @param ext   Extension of the request resource
+     * @param length    Request resource length
+     * @return Especific header for the browser
+     */
     private String generateHeader(boolean isImage, String ext, long length) {
         String header = null;
         if (isImage) {
