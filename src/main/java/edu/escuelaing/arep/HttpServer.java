@@ -130,13 +130,18 @@ public class HttpServer {
         String filePath = "src/main/resources/";
         String ext = FilenameUtils.getExtension(fileRequested);
         boolean isImage = false;
-        if (ext.equals("html")) {
-            filePath += "web-pages/";
-        } else if (ext.equals("png")) {
-            filePath += "images/";
-            isImage = true;
+        switch (ext) {
+            case "png":
+                filePath += "images/" + fileRequested;
+                isImage = true;
+                break;
+            case "js":
+                filePath += "js/" + fileRequested;
+                break;
+            case "html":
+                filePath += "web-pages/" + fileRequested;
+                break;
         }
-        filePath += fileRequested;
         File file = new File(filePath);    
     
         if (file.exists() && !file.isDirectory()) {
