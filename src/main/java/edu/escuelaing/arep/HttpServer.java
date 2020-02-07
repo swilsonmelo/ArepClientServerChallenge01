@@ -83,43 +83,6 @@ public class HttpServer {
         }
     }
 
-
-
-    private void returnImage(String header, String filePath) throws IOException {
-        //I have no idea what I am doing
-        FileInputStream fileIn = new FileInputStream(filePath);
-        OutputStream os = clientSocket.getOutputStream();
-        for (char c : header.toCharArray()) {
-            os.write(c);
-        }
-        int a;
-        while ((a = fileIn.read()) > -1) {
-            os.write(a);
-        }
-        os.flush();
-        fileIn.close();
-        os.close();
-    }
-
-    private void returnFile(String header, File file) throws IOException {
-        //Maybe I have an idea of what I'm doing
-        out.println(header);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-
-        StringBuilder stringBuilder = new StringBuilder();
-        String st;
-        while ((st = br.readLine()) != null) {
-            stringBuilder.append(st);
-        }
-        out.println(stringBuilder.toString());
-        br.close();
-    }
-
-    private void returnFileNotFound(String fileRequested){
-        out.println("HTTP/1.1 404\r\nAccess-Control-Allow-Origin: *\r\n\r\n<html><body><h1>404 NOT FOUND ("+fileRequested+")</h1></body></html>");
-
-    }
-
     /**
      * Handles how to send back a requested resource
      *
