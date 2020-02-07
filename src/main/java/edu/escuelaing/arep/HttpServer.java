@@ -29,12 +29,6 @@ public class HttpServer {
         clientSocket = null;
     }
 
-    /**
-     * This method reads the default port as specified by the PORT variable in the
-     * environment.
-     *
-     * @return The port variable if set, else 4567 as default
-     */
     private static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
@@ -86,7 +80,8 @@ public class HttpServer {
 
 
     private void returnImage(String header, String filePath) throws IOException {
-        //I have no idea what I am doing
+        //I have no idea what I am doing.
+        //In fact, I don't know why I have to do it this way.
         FileInputStream fileIn = new FileInputStream(filePath);
         OutputStream os = clientSocket.getOutputStream();
         for (char c : header.toCharArray()) {
@@ -125,12 +120,6 @@ public class HttpServer {
 
     }
 
-    /**
-     * Handles how to send back a requested resource
-     *
-     * @param fileRequested
-     * @throws IOException
-     */
     private void handleRequest(String fileRequested) throws IOException {
         String filePath = "src/main/resources/";
         String ext = FilenameUtils.getExtension(fileRequested);
