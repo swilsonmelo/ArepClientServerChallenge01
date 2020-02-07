@@ -86,7 +86,7 @@ public class HttpServer {
             }
 
             out.close();
-            in.close();
+            in.close;
             clientSocket.close();
         }
     }
