@@ -142,12 +142,32 @@ public class HttpServer {
         if (file.exists() && !file.isDirectory()) {
             String header = generateHeader(isImage, ext, file.length());
             if (isImage) {
-                returnImage(header, filePath);
+                FileInputStream fileIn = new FileInputStream(filePath);
+                OutputStream os = clientSocket.getOutputStream();
+                for (char c : header.toCharArray()) {
+                    os.write(c);
+                }
+                int a;
+                while ((a = fileIn.read()) > -1) {
+                    os.write(a);
+                }
+                os.flush();
+                fileIn.close();
+                os.close();
             } else {
-                returnFile(header, file);
+                out.println(header);
+                BufferedReader br = new BufferedReader(new FileReader(file));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String st;
+                while ((st = br.readLine()) != null) {
+                    stringBuilder.append(st);
+                }
+                out.println(stringBuilder.toString());
+                br.close();
             }
         } else {
-            returnFileNotFound(fileRequested);
+            out.println("HTTP/1.1 404\r\nAccess-Control-Allow-Origin: *\r\n\r\n<html><body><h1>404 NOT FOUND ("+fileRequested+")</h1></body></html>");
         }
     }
 
