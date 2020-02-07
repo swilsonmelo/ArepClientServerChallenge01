@@ -12,14 +12,31 @@ import java.util.regex.Pattern;
  */
 public class HttpServer {
 
+    /**
+     * The server socket that the Http server will use
+     */
     private ServerSocket serverSocket;
+
+    /**
+     * Socket for communication between client and server.
+     */
     private Socket clientSocket;
+
+    /**
+     * Text-output stream for communication
+     */
     private PrintWriter out;
+
+    /**
+     * Text-input stream for communication
+     */
     private BufferedReader in;
 
+    /**
+     * Creates an instance of the Http Server object
+     */
     public HttpServer() {
         int port = getPort();
-        serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
@@ -27,21 +44,15 @@ public class HttpServer {
             System.exit(1);
         }
         clientSocket = null;
+        out = null;
+        in = null;
     }
 
     /**
-     * This method reads the default port as specified by the PORT variable in the
-     * environment.
+     * Starts the server, begins to listen to connections
      *
-     * @return The port variable if set, else 4567 as default
+     * @throws IOException
      */
-    private static int getPort() {
-        if (System.getenv("PORT") != null) {
-            return Integer.parseInt(System.getenv("PORT"));
-        }
-        return 4567; // returns default port if heroku-port isn't set (i.e. on localhost)
-    }
-
     public void start() throws IOException {
         while (true) {
             try {
@@ -52,24 +63,22 @@ public class HttpServer {
                 System.exit(1);
             }
 
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(
+                    clientSocket.getOutputStream(), true);
+            in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
 
             String inputLine;
             StringBuilder stringBuilder = new StringBuilder();
             Pattern pattern = Pattern.compile("GET (/[^\\s]*)");
             Matcher matcher = null;
             while ((inputLine = in.readLine()) != null) {
-                System.out.println("I received: " + inputLine);
+                System.out.println("Recibí: " + inputLine);
                 stringBuilder.append(inputLine);
                 if (!in.ready()) {
                     matcher = pattern.matcher(stringBuilder.toString());
-                    System.out.println(stringBuilder.toString());
                     if (matcher.find()) {
-                        String res = matcher.group();
-                        System.out.println(res);
                         String fileRequested = matcher.group().substring(5);
-                        System.out.println(fileRequested);
                         System.out.println("VALUE: " + fileRequested);
                         handleRequest(fileRequested);
                     }
@@ -105,8 +114,8 @@ public class HttpServer {
                 filePath += "web-pages/" + fileRequested;
                 break;
         }
-        File file = new File(filePath);    
-    
+
+        File file = new File(filePath);
         if (file.exists() && !file.isDirectory()) {
             String header = generateHeader(isImage, ext, file.length());
             if (isImage) {
@@ -139,15 +148,46 @@ public class HttpServer {
         }
     }
 
+    /**
+     * Generates a header for the browser
+     *
+     * @param isImage tells if the requested resource is an image
+     * @param ext the extension of the resource
+     * @param length the length of the resource
+     * @return the header
+     */
     private String generateHeader(boolean isImage, String ext, long length) {
         String header = null;
         if (isImage) {
-            header = "HTTP/1.1 200 \r\nAccess-Control-Allow-Origin: *\r\nContent-Type: image/" + ext
-                    + "\r\nConnection: close\r\nContent-Length:" + length + "\r\n\r\n";
+            header = "HTTP/1.1 200 \r\nAccess-Control-Allow-Origin: *\r\nContent-Type: image/" + ext + "\r\nConnection: close\r\nContent-Length:" + length + "\r\n\r\n";
         } else {
             header = "HTTP/1.1 200 \r\nAccess-Control-Allow-Origin: *\r\nContent-Type: text/html\r\n\r\n";
         }
         return header;
+    }
+
+
+    /**
+     * This method reads the default port as specified by the PORT variable in
+     * the environment.
+     *
+     * @return The port variable if set, else 4567 as default
+     */
+    private static int getPort() {
+        if (System.getenv("PORT") != null) {
+            return Integer.parseInt(System.getenv("PORT"));
+        }
+        return 4567; //returns default port if heroku-port isn't set (i.e. on localhost)
+    }
+
+    /**
+     * Main method that starts the HTTP Server
+     *
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+        new HttpServer().start();
     }
 
 }
