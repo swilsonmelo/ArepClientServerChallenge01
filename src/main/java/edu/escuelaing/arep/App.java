@@ -11,7 +11,8 @@ public class App {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        new HttpServer().start();
+        HttpServer server = new HttpServer();
+        server.start();
     }
 
 }
