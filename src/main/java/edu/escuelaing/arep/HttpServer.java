@@ -47,6 +47,7 @@ public class HttpServer {
         out = null;
         in = null;
     }
+    
     /**
      * Starts the server, begins to listen to connections
      *
@@ -86,7 +87,7 @@ public class HttpServer {
             }
 
             out.close();
-            in.close;
+            in.close();
             clientSocket.close();
         }
     }
