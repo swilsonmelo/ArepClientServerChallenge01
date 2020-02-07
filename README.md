@@ -1,11 +1,18 @@
 # ArepClientServerChallenge01
 
-# CLient Server
+# Client Server
 
 This application implements a web server created with java that supports multiple consecutive requests and returns the requested files, including html pages and images.
 
-You can see the application working in heroku:
-https://clientserver01.herokuapp.com/index.html
+The application is deployed here: [Heroku deployment](https://clientserver01.herokuapp.com/index.html)
+
+The web server has these resources:
+
+* /index.html
+* /java.png
+* /spark.png
+* /spring.png
+
 
 [![CircleCI](https://circleci.com/gh/swilsonmelo/ArepClientServerChallenge01.svg?style=svg)](https://circleci.com/gh/swilsonmelo/ArepClientServerChallenge01)
 
@@ -46,4 +53,4 @@ An HTML documentation will be generated in /target/site/apidocs/index.html.
 
 ## License
 
-* This project is under GNU General Public License - see [LICENSE](https://github.com/swilsonmelo/HerokuTaller2/blob/master/LICENSE) to more info.
+* This project is under GNU General Public License - see [LICENSE](https://github.com/swilsonmelo/ArepClientServerChallenge01/blob/master/LICENSE) to more info.
