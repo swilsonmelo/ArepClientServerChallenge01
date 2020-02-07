@@ -12,29 +12,11 @@ import java.util.regex.Pattern;
  */
 public class HttpServer {
 
-    /**
-     * The server socket that the Http server will use
-     */
     private ServerSocket serverSocket;
-
-    /**
-     * Socket for communication between client and server.
-     */
     private Socket clientSocket;
-
-    /**
-     * Text-output stream for communication
-     */
     private PrintWriter out;
-
-    /**
-     * Text-input stream for communication
-     */
     private BufferedReader in;
 
-    /**
-     * Creates an instance of the Http Server object
-     */
     public HttpServer() {
         int port = getPort();
         try {
@@ -47,7 +29,7 @@ public class HttpServer {
         out = null;
         in = null;
     }
-    
+
     /**
      * Starts the server, begins to listen to connections
      *
@@ -178,16 +160,6 @@ public class HttpServer {
             return Integer.parseInt(System.getenv("PORT"));
         }
         return 4567; //returns default port if heroku-port isn't set (i.e. on localhost)
-    }
-
-    /**
-     * Main method that starts the HTTP Server
-     *
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        new HttpServer().start();
     }
 
 }
