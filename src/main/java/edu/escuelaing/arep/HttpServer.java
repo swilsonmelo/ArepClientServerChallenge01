@@ -46,11 +46,11 @@ public class HttpServer {
     }
 
      /**
-     * Starts the http server
+     * Runs the http server
      *
      * @throws IOException
      */
-    public void start() throws IOException {
+    public void run() throws IOException {
         while (true) {
             try {
                 System.out.println("Ready to receive");
