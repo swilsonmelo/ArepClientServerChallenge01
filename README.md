@@ -9,9 +9,13 @@ The application is deployed here: [Heroku deployment](https://clientserver01.her
 The web server has these resources:
 
 * /index.html
+* /index2.html
 * /java.png
 * /spark.png
 * /spring.png
+* /eclipse.png
+* /vsCode.png
+* /netbeans.png
 
 
 [![CircleCI](https://circleci.com/gh/swilsonmelo/ArepClientServerChallenge01.svg?style=svg)](https://circleci.com/gh/swilsonmelo/ArepClientServerChallenge01)
